@@ -54,6 +54,7 @@ public:
 //	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
 	afx_msg void OnImageprocShow();
+	afx_msg void OnCoremodualMaskoperation( );
 };
 
 #ifndef _DEBUG  // CImageProcView.cpp 中的调试版本

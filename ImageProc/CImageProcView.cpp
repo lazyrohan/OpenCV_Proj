@@ -28,7 +28,8 @@ BEGIN_MESSAGE_MAP(CImageProcView, CView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
 	ON_WM_SIZE()
 	ON_COMMAND(ID_IMAGEPROC_SHOW, &CImageProcView::OnImageprocShow)
-END_MESSAGE_MAP()
+	ON_COMMAND( ID_COREMODUAL_MASKOPERATION, &CImageProcView::OnCoremodualMaskoperation )
+END_MESSAGE_MAP( )
 
 // CImageProcView 构造/析构
 
@@ -258,4 +259,11 @@ void CImageProcView::OnImageprocShow()
 	Mat sobelImg;
 	m_pProceedImgWnd->ImgSobelOperate(pDoc->m_dRawImg,sobelImg);
 	m_pProceedImgWnd->UpdateImage(sobelImg);
+}
+
+
+void CImageProcView::OnCoremodualMaskoperation( )
+{
+	// TODO:  在此添加命令处理程序代码
+	MessageBoxW(TEXT("Image masked"));
 }

@@ -116,7 +116,9 @@
     <ClCompile Include="CImageProcView.cpp" />
     <ClCompile Include="CImgShowWnd.cpp" />
     <ClCompile Include="CImgTreeCtrl.cpp" />
-    <ClCompile Include="CMatShow.cpp" />
+    <ClCompile Include="CMatShow.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="CRawImgWnd.cpp" />
     <ClCompile Include="ImageProc.cpp" />
     <ClCompile Include="ImageProcDoc.cpp" />

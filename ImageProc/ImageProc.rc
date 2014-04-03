@@ -134,10 +134,6 @@ BEGIN
         MENUITEM "工具栏(&T)",                     ID_VIEW_TOOLBAR
         MENUITEM "状态栏(&S)",                     ID_VIEW_STATUS_BAR
     END
-    POPUP "帮助(&H)"
-    BEGIN
-        MENUITEM "关于 ImageProc(&A)...",         ID_APP_ABOUT
-    END
     POPUP "ImageProc"
     BEGIN
         MENUITEM "Show",                        ID_IMAGEPROC_SHOW
@@ -152,6 +148,10 @@ BEGIN
             MENUITEM "Random Generator and Text",   ID_COREMODUAL_RANDOMGENERATORANDTEXT
             MENUITEM "Discrete Fourier Transform",  ID_COREMODUAL_DISCRETEFOURIERTRANSFORM
         END
+    END
+    POPUP "帮助(&H)"
+    BEGIN
+        MENUITEM "关于 ImageProc(&A)...",         ID_APP_ABOUT
     END
 END
 

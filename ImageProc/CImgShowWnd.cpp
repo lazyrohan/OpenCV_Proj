@@ -191,7 +191,7 @@ void CImgShowWnd::OnPaint()
 void CImgShowWnd::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 	// TODO:  在此添加消息处理程序代码和/或调用默认值
-
+	MessageBoxW( TEXT("Lbtn dClk"));
 	CWnd::OnLButtonDblClk(nFlags, point);
 }
 
