@@ -103,6 +103,7 @@
     <ClInclude Include="CImageProcView.h" />
     <ClInclude Include="CImgShowWnd.h" />
     <ClInclude Include="CImgTreeCtrl.h" />
+    <ClInclude Include="CMatShow.h" />
     <ClInclude Include="CRawImgWnd.h" />
     <ClInclude Include="ImageProc.h" />
     <ClInclude Include="ImageProcDoc.h" />
@@ -115,6 +116,7 @@
     <ClCompile Include="CImageProcView.cpp" />
     <ClCompile Include="CImgShowWnd.cpp" />
     <ClCompile Include="CImgTreeCtrl.cpp" />
+    <ClCompile Include="CMatShow.cpp" />
     <ClCompile Include="CRawImgWnd.cpp" />
     <ClCompile Include="ImageProc.cpp" />
     <ClCompile Include="ImageProcDoc.cpp" />
