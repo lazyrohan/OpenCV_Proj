@@ -6,6 +6,8 @@
 #include "CImgTreeCtrl.h"
 #include "CRawImgWnd.h"
 #include "CImgShowWnd.h"
+#include "CMatShow.h"
+
 class CImageProcView : public CView
 {
 protected: // 仅从序列化创建
@@ -22,7 +24,7 @@ public:
 	CImgTreeCtrl* m_pImgTreeCtrl;
 	CRawImgWnd*   m_pRawImgWnd;
 	CImgShowWnd*  m_pProceedImgWnd;
-
+	CMatShow      m_mImgSrc;
 private:
 	CRect m_dCtrlRect[4];
 
@@ -55,6 +57,7 @@ public:
 	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
 	afx_msg void OnImageprocShow();
 	afx_msg void OnCoremodualMaskoperation( );
+	afx_msg void OnMenuChooseImgPath();
 };
 
 #ifndef _DEBUG  // CImageProcView.cpp 中的调试版本

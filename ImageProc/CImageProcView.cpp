@@ -29,7 +29,8 @@ BEGIN_MESSAGE_MAP(CImageProcView, CView)
 	ON_WM_SIZE()
 	ON_COMMAND(ID_IMAGEPROC_SHOW, &CImageProcView::OnImageprocShow)
 	ON_COMMAND( ID_COREMODUAL_MASKOPERATION, &CImageProcView::OnCoremodualMaskoperation )
-END_MESSAGE_MAP( )
+	ON_COMMAND(ID_MENU_CHOOSEIMGPATH, &CImageProcView::OnMenuChooseImgPath)
+END_MESSAGE_MAP()
 
 // CImageProcView 构造/析构
 
@@ -266,4 +267,11 @@ void CImageProcView::OnCoremodualMaskoperation( )
 {
 	// TODO:  在此添加命令处理程序代码
 	MessageBoxW(TEXT("Image masked"));
+}
+
+
+void CImageProcView::OnMenuChooseImgPath()
+{
+	// TODO:  在此添加命令处理程序代码
+
 }

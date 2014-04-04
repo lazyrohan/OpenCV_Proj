@@ -23,15 +23,22 @@ public:
 	virtual ~CMatShow( );
 
 private:
+	//Source raw image mat 
 	Mat m_mSrcImg;
+	//Proceed image mat
+	Mat m_mProcImg;
+	//Erro string buffer
+	string m_sErrStr;
 
-
+public:
 	// Load Image Resource 
-	void LoadImgResource(string ImgSrcPath);
-	public:
+	bool LoadImgResource(string ImgSrcPath);
 	// Convert img mat resolution to terminal show wnd.
-	void FitImgMatWnd(Mat srcImg,Mat dstImg, int wndHeight,int wndWidth);
+	Mat FitImgMatWnd(Mat srcImg, int wndHeight,int wndWidth);
 	// Convert mat to CImage
 	bool Mat2CImg( Mat imgMat,CImage& cimgShow );
+	// Get Last Erro
+	string GetLastErrStr(void);
+	bool CimgOutWin(CImage& outImg, bool bOrgShow, int wndHeight, int wndWidth);
 };
 

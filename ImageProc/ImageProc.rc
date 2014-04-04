@@ -113,6 +113,8 @@ BEGIN
         MENUITEM "保存(&S)\tCtrl+S",              ID_FILE_SAVE
         MENUITEM "另存为(&A)...",                  ID_FILE_SAVE_AS
         MENUITEM SEPARATOR
+        MENUITEM "选择图片路径",                      ID_MENU_CHOOSEIMGPATH
+        MENUITEM SEPARATOR
         MENUITEM "打印(&P)...\tCtrl+P",           ID_FILE_PRINT
         MENUITEM "打印预览(&V)",                    ID_FILE_PRINT_PREVIEW
         MENUITEM "打印设置(&R)...",                 ID_FILE_PRINT_SETUP
@@ -393,6 +395,7 @@ BEGIN
     ID_COREMODUAL_CHANGINGCONTRAST "Changing Contrast of image"
     ID_COREMODUAL_CHANGINGBRIGHTNESS "Changing image brightness"
     ID_COREMODUAL_DISCRETEFOURIERTRANSFORM "Discrete Fourier Transform"
+    ID_MENU_CHOOSEIMGPATH   "Choose Image Path"
 END
 
 #endif    // 中文(简体，中国) resources

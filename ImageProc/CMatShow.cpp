@@ -9,12 +9,14 @@ CMatShow::CMatShow()
 
 CMatShow::~CMatShow()
 {
+	//Release mat buffers
+	m_mProcImg.release();
 	m_mSrcImg.release( );
 }
 
 
 // Load Image Resource 
-void CMatShow::LoadImgResource( string ImgSrcPath )
+bool CMatShow::LoadImgResource( string ImgSrcPath )
 {
 	//Load image source file
 	//Check img mat buffer status
@@ -26,18 +28,25 @@ void CMatShow::LoadImgResource( string ImgSrcPath )
 	m_mSrcImg = imread(ImgSrcPath,-1 );
 	if (!m_mSrcImg.data )
 	{
+		m_sErrStr = "<imread> Load image file failed.";
 		m_mSrcImg.release( );
-		return;
+		return false;
 	}
+
+	return true;
 }
 
 
 
 // Convert img mat resolution to terminal show wnd.
-void CMatShow::FitImgMatWnd(Mat srcImg,Mat dstImg, int wndHeight, int wndWidth )
+Mat CMatShow::FitImgMatWnd(Mat srcImg, int wndHeight, int wndWidth )
 {
-	if ( wndHeight==0||wndWidth==0 )
-		return;
+	Mat dstImg;
+	if (wndHeight <= 0 || wndWidth <= 0)
+	{
+		m_sErrStr = "Input invalid wnd height or width,check them.";
+		return ;
+	}
 	//Get properly desty size width/height
 	Size wndSize;
 
@@ -56,6 +65,7 @@ void CMatShow::FitImgMatWnd(Mat srcImg,Mat dstImg, int wndHeight, int wndWidth )
 	}
 
 	resize( m_mSrcImg, dstImg, wndSize, 0.0, 0.0, INTER_AREA );
+	return dstImg;
 }
 
 
@@ -76,6 +86,7 @@ bool CMatShow::Mat2CImg( Mat imgMat,CImage& cimgShow )
 
 	if ( !bResult )
 	{
+		m_sErrStr = "Create CImage failed.";
 		return bResult;
 	}
 
@@ -135,4 +146,36 @@ bool CMatShow::Mat2CImg( Mat imgMat,CImage& cimgShow )
 	}
 
 	return bResult;
+}
+
+
+// Get Last Erro Message
+string CMatShow::GetLastErrStr(void)
+{
+	return m_sErrStr;
+}
+
+//Out put Cimage for windows
+bool CMatShow::CimgOutWin(CImage& outImg,bool bOrgShow,int wndHeight,int wndWidth)
+{
+	if (bOrgShow)
+	{
+		//Output original raw img source
+		if (!m_mSrcImg.data)
+		{
+			m_sErrStr = "Source image mat is null.";
+			return false;
+		}
+		return Mat2CImg(FitImgMatWnd(m_mSrcImg, wndHeight, wndWidth), outImg);
+	}
+	else
+	{
+		//Output proceed image mat
+		if (!m_mProcImg.data)
+		{
+			m_sErrStr = "Proceed image data is null.";
+			return false;
+		}
+		return Mat2CImg(FitImgMatWnd(m_mProcImg, wndHeight, wndWidth), outImg);
+	}
 }
