@@ -45,7 +45,7 @@ Mat CMatShow::FitImgMatWnd(Mat srcImg, int wndHeight, int wndWidth )
 	if (wndHeight <= 0 || wndWidth <= 0)
 	{
 		m_sErrStr = "Input invalid wnd height or width,check them.";
-		return ;
+		return dstImg;
 	}
 	//Get properly desty size width/height
 	Size wndSize;
@@ -55,13 +55,13 @@ Mat CMatShow::FitImgMatWnd(Mat srcImg, int wndHeight, int wndWidth )
 
 	if (srcRatio <= wndRatio )
 	{
-		wndSize.height = (int)wndWidth*srcRatio;
+		wndSize.height = (int)(wndWidth*srcRatio);
 		wndSize.width = wndWidth;
 	}
 	else
 	{
 		wndSize.height = wndHeight;
-		wndSize.width = (int)wndHeight / srcRatio;
+		wndSize.width = (int)(wndHeight / srcRatio);
 	}
 
 	resize( m_mSrcImg, dstImg, wndSize, 0.0, 0.0, INTER_AREA );
@@ -77,7 +77,7 @@ bool CMatShow::Mat2CImg( Mat imgMat,CImage& cimgShow )
 	{
 		cimgShow.Destroy( );
 	}
-	bool bResult = TRUE;
+	BOOL bResult = TRUE;
 	int width = imgMat.cols;
 	int height = imgMat.rows;
 	int channel = imgMat.channels( );

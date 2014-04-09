@@ -273,5 +273,18 @@ void CImageProcView::OnCoremodualMaskoperation( )
 void CImageProcView::OnMenuChooseImgPath()
 {
 	// TODO:  在此添加命令处理程序代码
+	CString csFilePath;
+	CString csDefFileName;
+	CString csDefFileExt(".jpg");
+	CString csDefFileFilter("JPG FIle(*.jpg)|*.jpg|BMP FILE(*.bmp)|*.bmp|All Files(*.*)|*.*||");
+	CFileDialog imgPathChooser(TRUE, csDefFileExt, csDefFileName, OFN_ALLOWMULTISELECT | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, csDefFileFilter, NULL, NULL, NULL);
 
+	//Set default directory
+	imgPathChooser.m_ofn.lpstrTitle = TEXT("Choose Image File Folder");
+	imgPathChooser.m_ofn.lpstrInitialDir = TEXT("E:\\DataBank");
+	if (imgPathChooser.DoModal() == IDOK)
+	{
+		csFilePath = imgPathChooser.GetPathName();
+		MessageBoxW(csFilePath);
+	}
 }
