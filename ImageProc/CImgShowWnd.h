@@ -29,17 +29,14 @@ public:
 
 protected:
 	DECLARE_MESSAGE_MAP()
-private:
+public:
 	CImage m_iImage;
 	// Copy Mat image data to CImage for show.
-	BOOL MatToCImage(Mat& imgMat, CImage& cimgShow);
 public:
 	// Update image data to showout.
-	void UpdateImage(Mat& imgMat);
+	void UpdateImage(void);
 	afx_msg void OnPaint();
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
-	// Soble Operate to get image edge.
-	void ImgSobelOperate(Mat& imgMat, Mat& outImg);
 
 	//Common tools 
 	//A variable to string function

@@ -20,9 +20,8 @@ protected:
 public:
 	afx_msg void OnPaint();
 	// Update Image data.
-	void UpdateImage(Mat& rawMat, CString selImgPath);
-
-private:
+	void UpdateImage( void );
+public:
 	CImage m_iImage;
 	
 	

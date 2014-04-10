@@ -23,9 +23,9 @@ public:
 	//View controls
 	CImgTreeCtrl* m_pImgTreeCtrl;
 	CRawImgWnd*   m_pRawImgWnd;
-	CImgShowWnd*  m_pProceedImgWnd;
-	CMatShow      m_mImgSrc;
+	CImgShowWnd*  m_pProceedImgWnd;	
 private:
+	CMatShow      m_mImgSrc;
 	CRect m_dCtrlRect[4];
 
 // 重写
@@ -58,6 +58,7 @@ public:
 	afx_msg void OnImageprocShow();
 	afx_msg void OnCoremodualMaskoperation( );
 	afx_msg void OnMenuChooseImgPath();
+	afx_msg void OnFileOpen();
 };
 
 #ifndef _DEBUG  // CImageProcView.cpp 中的调试版本

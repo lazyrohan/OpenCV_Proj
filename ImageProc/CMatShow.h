@@ -36,9 +36,10 @@ public:
 	// Convert img mat resolution to terminal show wnd.
 	Mat FitImgMatWnd(Mat srcImg, int wndHeight,int wndWidth);
 	// Convert mat to CImage
-	bool Mat2CImg( Mat imgMat,CImage& cimgShow );
+	BOOL Mat2CImg( CImage& cimgShow,bool bOrgImg );
 	// Get Last Erro
 	string GetLastErrStr(void);
-	bool CimgOutWin(CImage& outImg, bool bOrgShow, int wndHeight, int wndWidth);
+	// Sobel Operation
+	void ImgSobelOperate();
 };
 

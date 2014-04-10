@@ -30,6 +30,7 @@ BEGIN_MESSAGE_MAP(CImageProcView, CView)
 	ON_COMMAND(ID_IMAGEPROC_SHOW, &CImageProcView::OnImageprocShow)
 	ON_COMMAND( ID_COREMODUAL_MASKOPERATION, &CImageProcView::OnCoremodualMaskoperation )
 	ON_COMMAND(ID_MENU_CHOOSEIMGPATH, &CImageProcView::OnMenuChooseImgPath)
+	ON_COMMAND(ID_FILE_OPEN, &CImageProcView::OnFileOpen)
 END_MESSAGE_MAP()
 
 // CImageProcView 构造/析构
@@ -240,7 +241,7 @@ BOOL CImageProcView::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 			str += selImg;
 			if (!selImg.IsEmpty())
 			{
-				m_pRawImgWnd->UpdateImage(pDoc->m_dRawImg,str);
+				m_pRawImgWnd->UpdateImage();
 			}
 		}
 	}
@@ -258,21 +259,56 @@ void CImageProcView::OnImageprocShow()
 		return;
 
 	Mat sobelImg;
-	m_pProceedImgWnd->ImgSobelOperate(pDoc->m_dRawImg,sobelImg);
-	m_pProceedImgWnd->UpdateImage(sobelImg);
+	m_mImgSrc.ImgSobelOperate();
+	m_mImgSrc.Mat2CImg(m_pProceedImgWnd->m_iImage,false);
+	m_pProceedImgWnd->Invalidate();
 }
 
 
 void CImageProcView::OnCoremodualMaskoperation( )
 {
-	// TODO:  在此添加命令处理程序代码
 	MessageBoxW(TEXT("Image masked"));
 }
 
 
 void CImageProcView::OnMenuChooseImgPath()
 {
-	// TODO:  在此添加命令处理程序代码
+	//Choose folder directory
+	BROWSEINFO chFolder;
+	chFolder.hwndOwner = this->m_hWnd;
+	chFolder.pidlRoot = NULL;
+	chFolder.iImage = NULL;
+	chFolder.lParam = NULL;
+	chFolder.lpfn = NULL;
+
+
+	chFolder.pszDisplayName = NULL;
+	chFolder.ulFlags = BIF_BROWSEINCLUDEFILES | BIF_RETURNONLYFSDIRS;
+	chFolder.lpszTitle = TEXT("Choose Image File Folder");
+
+	ITEMIDLIST* pidl=NULL;
+	pidl = SHBrowseForFolderW(&chFolder);
+	if (!pidl)
+	{
+		MessageBox(TEXT("Open folder failed."));
+		return;
+	}
+
+	WCHAR filePath[255];
+	CString csFilePath;
+	if (SHGetPathFromIDListW(pidl,filePath))
+	{
+		csFilePath = filePath;
+		MessageBox(csFilePath);
+		//Covert CString path to string
+		USES_CONVERSION;
+		W2A(csFilePath);
+	}
+}
+
+void CImageProcView::OnFileOpen()
+{
+	//Open singe image file or multiple image file to proceed
 	CString csFilePath;
 	CString csDefFileName;
 	CString csDefFileExt(".jpg");
@@ -286,5 +322,15 @@ void CImageProcView::OnMenuChooseImgPath()
 	{
 		csFilePath = imgPathChooser.GetPathName();
 		MessageBoxW(csFilePath);
+		//Covert CString path to string and load file
+		USES_CONVERSION;
+		if (!m_mImgSrc.LoadImgResource(W2A(csFilePath)))
+		{
+			MessageBox(TEXT("Load image file failed."));
+		}
+	
+		//Show original image at RawImgWnd
+		m_mImgSrc.Mat2CImg(m_pRawImgWnd->m_iImage,true);
+		m_pRawImgWnd->Invalidate();
 	}
 }

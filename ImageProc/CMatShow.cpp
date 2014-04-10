@@ -70,17 +70,27 @@ Mat CMatShow::FitImgMatWnd(Mat srcImg, int wndHeight, int wndWidth )
 
 
 // Convert mat to CImage
-bool CMatShow::Mat2CImg( Mat imgMat,CImage& cimgShow )
+BOOL CMatShow::Mat2CImg(CImage& cimgShow,bool bOrgImg )
 {
+	//Choose orignal or proceed image
+	Mat imgBuff;
+	if (bOrgImg)
+	{
+		imgBuff = m_mSrcImg;
+	}
+	else
+	{
+		imgBuff = m_mProcImg;
+	}
 	//Create new image data
 	if ( !cimgShow.IsNull( ) )
 	{
 		cimgShow.Destroy( );
 	}
 	BOOL bResult = TRUE;
-	int width = imgMat.cols;
-	int height = imgMat.rows;
-	int channel = imgMat.channels( );
+	int width = imgBuff.cols;
+	int height = imgBuff.rows;
+	int channel = imgBuff.channels( );
 
 	bResult = cimgShow.Create( width, height, channel * 8 );
 
@@ -116,7 +126,7 @@ bool CMatShow::Mat2CImg( Mat imgMat,CImage& cimgShow )
 		int step = cimgShow.GetPitch( );
 		for ( int i = 0; i<height; i++ )
 		{
-			pS = imgMat.ptr<uchar>( i );
+			pS = imgBuff.ptr<uchar>( i );
 			for ( int j = 0; j<width; j++ )
 			{
 				*(pImg + i*step + j) = pS[ j ];
@@ -135,7 +145,7 @@ bool CMatShow::Mat2CImg( Mat imgMat,CImage& cimgShow )
 		int step = cimgShow.GetPitch( );
 		for ( int i = 0; i<height; i++ )
 		{
-			pS = imgMat.ptr<uchar>( i );
+			pS = imgBuff.ptr<uchar>( i );
 			for ( int j = 0; j<width; j++ )
 			{
 				for ( int k = 0; k<3; k++ )
@@ -155,27 +165,32 @@ string CMatShow::GetLastErrStr(void)
 	return m_sErrStr;
 }
 
-//Out put Cimage for windows
-bool CMatShow::CimgOutWin(CImage& outImg,bool bOrgShow,int wndHeight,int wndWidth)
+
+// Sobel Operation to get image edge.
+void CMatShow::ImgSobelOperate()
 {
-	if (bOrgShow)
+	if (!m_mSrcImg.data)
 	{
-		//Output original raw img source
-		if (!m_mSrcImg.data)
-		{
-			m_sErrStr = "Source image mat is null.";
-			return false;
-		}
-		return Mat2CImg(FitImgMatWnd(m_mSrcImg, wndHeight, wndWidth), outImg);
+		m_sErrStr= "Get invalidate Mat data";
+		return;
 	}
-	else
-	{
-		//Output proceed image mat
-		if (!m_mProcImg.data)
-		{
-			m_sErrStr = "Proceed image data is null.";
-			return false;
-		}
-		return Mat2CImg(FitImgMatWnd(m_mProcImg, wndHeight, wndWidth), outImg);
-	}
+
+	//GaussianBlur
+	GaussianBlur(m_mSrcImg, m_mProcImg, Size(3, 3), 0, 0, BORDER_DEFAULT);
+	//Covert image to gray
+	cvtColor(m_mProcImg, m_mProcImg, CV_RGB2GRAY);
+
+	/// Generate grad_x and grad_y
+	Mat grad_x, grad_y;
+	Mat abs_grad_x, abs_grad_y;
+	/// Gradient X
+	//Scharr( src_gray, grad_x, ddepth, 1, 0, scale, delta, BORDER_DEFAULT );
+	Sobel(m_mProcImg, grad_x, CV_16S, 1, 0, 3, 3, 0, BORDER_DEFAULT);
+	convertScaleAbs(grad_x, abs_grad_x);
+	/// Gradient Y
+	//Scharr( src_gray, grad_y, ddepth, 0, 1, scale, delta, BORDER_DEFAULT );
+	Sobel(m_mProcImg, grad_y, CV_16S, 0, 1, 3, 1, 0, BORDER_DEFAULT);
+	convertScaleAbs(grad_y, abs_grad_y);
+	/// Total Gradient (approximate)
+	addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, m_mProcImg);
 }
